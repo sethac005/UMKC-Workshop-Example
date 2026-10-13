@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Essentials for Faculty & Staff | Sample Training Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050505;
+    --card: rgba(18, 18, 18, 0.7);
+    --border: rgba(255, 255, 255, 0.08);
+    --accent: #3b82f6;
+    --accent-soft: rgba(59, 130, 246, 0.15);
+    --text: #f5f5f5;
+    --muted: #a1a1aa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .noise {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .orb {
+    position: fixed; border-radius: 50%; filter: blur(120px); opacity: 0.35; z-index: 0; pointer-events: none;
+  }
+  .orb-1 { width: 600px; height: 600px; background: #3b82f6; top: -200px; left: -100px; }
+  .orb-2 { width: 500px; height: 500px; background: #8b5cf6; bottom: -150px; right: -100px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+  header {
+    padding: 80px 0 40px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .subtitle {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0 auto 32px;
+  }
+  .badge-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+  .badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  section { padding: 60px 0; }
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .section-desc { color: var(--muted); margin-bottom: 32px; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .card {
+    background: var(--card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    transition: transform 0.5s cubic-bezier(0.32,0.72,0,1), box-shadow 0.5s;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .card p { color: var(--muted); font-size: 15px; }
+  .icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .prompt-box {
+    background: #0a0a0a;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    font-family: ui-monospace, monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .prompt-box::before {
+    content: 'PROMPT EXAMPLE';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+  }
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check { color: #22c55e; font-weight: 700; flex-shrink: 0; }
+  .faq-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq-q {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text);
+    padding: 20px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: inherit;
+  }
+  .faq-q::after {
+    content: '+';
+    font-size: 22px;
+    font-weight: 300;
+    transition: transform 0.3s;
+  }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.32,0.72,0,1), padding 0.45s;
+    padding: 0 24px;
+    color: var(--muted);
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(4px);
+    transition: opacity 0.8s cubic-bezier(0.32,0.72,0,1), transform 0.8s cubic-bezier(0.32,0.72,0,1), filter 0.8s;
+  }
+  .reveal.visible { opacity: 1; transform: none; filter: none; }
+  footer {
+    text-align: center;
+    padding: 60px 0 40px;
+    color: var(--muted);
+    font-size: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 16px;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .day-badge {
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .agenda-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .agenda-item:last-child { border-bottom: none; }
+  .time { color: var(--accent); font-weight: 600; font-size: 14px; }
+  .workshop-section { display: none; }
+  .workshop-section.visible { display: block; }
+  .outcomes { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .outcome {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .cta.active { background: #1e40af; }
+    header { padding: 48px 0 24px; }
+    section { padding: 40px 0; }
+  }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="container">
+  <header class="reveal">
+    <div class="eyebrow">Sample Training Resource</div>
+    <h1>AI Essentials<br>for Faculty & Staff</h1>
+    <p class="subtitle">A practical, five-minute guide to using enterprise AI tools responsibly and effectively. Created as a communication and training work sample.</p>
+    <div class="badge-row">
+      <span class="badge">Microsoft Copilot</span>
+      <span class="badge">Google Gemini</span>
+      <span class="badge">Claude</span>
+      <span class="badge">ChatGPT</span>
+    </div>
+  </header>
+
+  <section class="reveal">
+    <h2 class="section-title">When AI Helps (and When It Doesn’t)</h2>
+    <p class="section-desc">Enterprise AI tools excel at drafting, summarizing, brainstorming, and first-pass analysis. They are not a substitute for judgment, original research, or confidential data handling.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="icon">✍️</span>
+        <h3>Strong Use Cases</h3>
+        <p>Drafting emails, summarizing long documents or meeting notes, generating outlines, brainstorming lesson ideas, refining language, and creating first-draft tables or lists.</p>
+      </div>
+      <div class="card">
+        <span class="icon">⚠️</span>
+        <h3>Use Caution</h3>
+        <p>Anything involving student data, unpublished research, personnel matters, or legally sensitive information. Always verify facts. Never paste confidential content into unapproved tools.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🔒</span>
+        <h3>Protected Environments</h3>
+        <p>University-approved tools (accessed via SSO) provide stronger data protections. Prefer these over consumer versions for any work-related tasks.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">Prompting That Works</h2>
+    <p class="section-desc">Clear context and specific instructions produce far better results. Think of a prompt as a brief to a capable colleague.</p>
+    <div class="prompt-box">
+Role: You are a helpful academic writing assistant.<br><br>
+Task: Rewrite the following paragraph for clarity and a professional tone while preserving the original meaning.<br><br>
+Constraints: Keep it under 120 words. Use active voice. Do not invent new claims.<br><br>
+Input: [paste your text here]
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>Give Context</h3>
+        <p>Who is the audience? What is the purpose? What tone do you need?</p>
+      </div>
+      <div class="card">
+        <h3>Be Specific</h3>
+        <p>Request structure, length, format, or examples. Vague prompts get vague answers.</p>
+      </div>
+      <div class="card">
+        <h3>Iterate</h3>
+        <p>Ask follow-up questions. “Make this shorter,” “Add three examples,” or “Explain this more simply.”</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">Responsible Use Checklist</h2>
+    <p class="section-desc">A quick reference before you hit send or share AI-generated content.</p>
+    <ul class="checklist">
+      <li><span class="check">✓</span><div><strong>Verify accuracy.</strong> AI can confidently invent facts, citations, or statistics. Cross-check anything important.</div></li>
+      <li><span class="check">✓</span><div><strong>Protect sensitive data.</strong> Do not paste student records, unpublished research, personnel information, or credentials into AI tools.</div></li>
+      <li><span class="check">✓</span><div><strong>Disclose when appropriate.</strong> Be transparent with colleagues or students when AI substantially contributed to work product.</div></li>
+      <li><span class="check">✓</span><div><strong>Own the final output.</strong> You remain responsible for the accuracy, tone, and appropriateness of anything you distribute.</div></li>
+      <li><span class="check">✓</span><div><strong>Use approved tools.</strong> Stick to university-supported platforms for work tasks whenever possible.</div></li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-desc">Common questions from non-technical users getting started with enterprise AI.</p>
+    <div class="faq-item">
+      <button class="faq-q">Which AI tools can I use for university work?</button>
+      <div class="faq-a">University-supported tools such as Microsoft Copilot (via Microsoft 365) and Google Gemini (via institutional accounts) are preferred. These provide enterprise-grade security and data protections. Consumer versions of ChatGPT or other tools should generally be avoided for any content involving university data.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I paste student papers or emails into AI?</button>
+      <div class="faq-a">No. Student work and communications are protected. Never upload or paste identifiable student data, grades, or personal information into AI tools. If you need help with general writing or teaching concepts, use anonymized or hypothetical examples instead.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How do I get better results from prompts?</button>
+      <div class="faq-a">Provide clear role, task, constraints, and context. Start with a specific request, then refine. Example: “Summarize this document in 5 bullet points for a busy department chair. Focus on decisions and action items.”</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is AI output copyright-free or ready to publish?</button>
+      <div class="faq-a">AI-generated content is not automatically free of copyright issues, and models can reproduce patterns from training data. Treat outputs as drafts. Review, edit, and ensure originality before using in official materials, publications, or student-facing content.</div>
+    </div>
+  </section>
+
+  <section class="reveal" style="text-align: center;" id="cta-section">
+    <h2 class="section-title">Ready to Explore Further?</h2>
+    <p class="section-desc" style="margin-left: auto; margin-right: auto;">This quick guide is the entry point. Below is a complete 3-day weekend workshop outline designed for faculty and staff — ready to deliver or adapt.</p>
+    <a href="#workshop" class="cta" id="workshop-btn">View Full 3-Day Workshop →</a>
+  </section>
+
+  <!-- 3-Day Workshop -->
+  <div id="workshop" class="workshop-section">
+    <section class="reveal">
+      <div class="eyebrow" style="margin-bottom: 12px;">Full Workshop Outline</div>
+      <h2 class="section-title">3-Day Weekend AI Workshop<br>for Faculty & Staff</h2>
+      <p class="section-desc">A practical, hands-on weekend intensive focused on responsible adoption of enterprise AI tools (Microsoft Copilot, Google Gemini, Claude, and ChatGPT). Designed for mixed-experience groups of non-technical users.</p>
+      
+      <div class="card" style="margin-bottom: 32px;">
+        <h3>Workshop Overview</h3>
+        <p style="margin-bottom: 16px;"><strong>Audience:</strong> Faculty, staff, and administrators with little to no prior AI experience.<br>
+        <strong>Format:</strong> Hybrid or in-person, 4–5 hours per day with breaks.<br>
+        <strong>Goal:</strong> Build confidence, establish responsible habits, and leave with immediately usable skills and resources.</p>
+        <div class="outcomes">
+          <span class="outcome">Prompting fluency</span>
+          <span class="outcome">Responsible use</span>
+          <span class="outcome">Tool selection</span>
+          <span class="outcome">Workflow integration</span>
+          <span class="outcome">Peer support model</span>
+        </div>
+      </div>
+
+      <!-- Day 1 -->
+      <div class="day-header">
+        <span class="day-badge">Day 1</span>
+        <h3 style="font-size: 24px; font-weight: 700;">Foundations & Safe Starting Points</h3>
+      </div>
+      <div class="card" style="margin-bottom: 40px;">
+        <div class="agenda-item">
+          <div class="time">9:00–9:30</div>
+          <div><strong>Welcome & Goals</strong><br>What success looks like by Sunday. Participant introductions and shared expectations.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">9:30–10:30</div>
+          <div><strong>What Enterprise AI Actually Is</strong><br>Copilot, Gemini, Claude, ChatGPT — differences, university access paths, and data protections. Demo of SSO login and basic interface.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">10:45–12:00</div>
+          <div><strong>Your First Useful Prompts</strong><br>Hands-on: rewrite an email, summarize a document, and generate an agenda. Facilitated feedback and refinement.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">1:00–2:30</div>
+          <div><strong>Responsible Use Deep Dive</strong><br>Privacy, student data, verification habits, and disclosure. Group exercise: red-flag scenarios and safe alternatives.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">2:45–4:00</div>
+          <div><strong>Build Your Personal Cheat Sheet</strong><br>Participants create a one-page reference for their own role. Share-outs and peer review.</div>
+        </div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="day-header">
+        <span class="day-badge">Day 2</span>
+        <h3 style="font-size: 24px; font-weight: 700;">Role-Specific Workflows</h3>
+      </div>
+      <div class="card" style="margin-bottom: 40px;">
+        <div class="agenda-item">
+          <div class="time">9:00–9:30</div>
+          <div><strong>Recap & Prompt Clinic</strong><br>Review Day 1 outputs. Open Q&A on what worked and what felt awkward.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">9:30–11:00</div>
+          <div><strong>Breakout Tracks</strong><br>
+          • Faculty: lesson outlines, discussion questions, feedback drafts<br>
+          • Staff: email sequences, meeting summaries, process documentation<br>
+          • Admins: report drafting, policy plain-language versions</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">11:15–12:30</div>
+          <div><strong>Advanced Prompt Patterns</strong><br>Role + Task + Constraints + Examples. Participants rebuild one of their Day 1 prompts using the fuller pattern and compare results.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">1:30–3:00</div>
+          <div><strong>Integration Practice</strong><br>Using AI inside real tools (Outlook/Copilot, Google Docs/Gemini, etc.). Live walkthroughs of common university workflows.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">3:15–4:00</div>
+          <div><strong>Peer Coaching Circles</strong><br>Small groups review each other’s outputs and suggest one improvement. Builds internal support network.</div>
+        </div>
+      </div>
+
+      <!-- Day 3 -->
+      <div class="day-header">
+        <span class="day-badge">Day 3</span>
+        <h3 style="font-size: 24px; font-weight: 700;">Sustainable Adoption & Next Steps</h3>
+      </div>
+      <div class="card" style="margin-bottom: 40px;">
+        <div class="agenda-item">
+          <div class="time">9:00–10:00</div>
+          <div><strong>Measuring What Matters</strong><br>How to tell if AI is actually helping. Simple adoption signals and self-assessment. Discussion of common failure modes.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">10:15–11:45</div>
+          <div><strong>Build a Micro-Resource</strong><br>Each participant creates a short guide, FAQ, or prompt template for their team or department. Facilitated gallery walk.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">1:00–2:30</div>
+          <div><strong>Governance & Future Features</strong><br>How new capabilities get evaluated, pilot programs, and when to escalate questions to Information Security or the AI Application Administrator.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">2:45–3:45</div>
+          <div><strong>Action Planning</strong><br>30-day personal plan: three specific tasks they will try with AI and how they will evaluate the results.</div>
+        </div>
+        <div class="agenda-item">
+          <div class="time">3:45–4:15</div>
+          <div><strong>Close & Resources</strong><br>Share resource hub, ongoing support channels, and optional follow-up office hours. Feedback collection.</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Facilitator Notes</h3>
+          <p>Keep sessions interactive. Cap lecture segments at 15–20 minutes. Prioritize hands-on time with university-approved tools. Have a “safe sandbox” document ready for exercises so no one needs to use real sensitive data.</p>
+        </div>
+        <div class="card">
+          <h3>Materials Needed</h3>
+          <p>SSO access instructions, sample non-sensitive documents, shared prompt template library, evaluation rubric for participant outputs, and a simple feedback form.</p>
+        </div>
+        <div class="card">
+          <h3>Success Indicators</h3>
+          <p>Participants leave with at least three refined prompts, a personal cheat sheet, a micro-resource for their team, and a 30-day action plan. Post-workshop survey measures confidence and intended use.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<footer>
+  Sample training & communication resource · Prepared for AI Application Administrator consideration<br>
+  Seth Coulter · seth-c-design.github.io/Portfolio
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Workshop reveal + smooth scroll
+  const workshopBtn = document.getElementById('workshop-btn');
+  const workshopSection = document.getElementById('workshop');
+  workshopBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    workshopSection.classList.add('visible');
+    workshopBtn.classList.add('active');
+    workshopBtn.textContent = 'Workshop Loaded Below ↓';
+    setTimeout(() => {
+      workshopSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  });
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
